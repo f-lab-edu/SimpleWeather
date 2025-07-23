@@ -137,7 +137,8 @@ fun WeatherListScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .dragContainer(dragDropState),
+                    // 삭제 모드가 아닐 때만 dragContainer 적용
+                    .then(if (!isDeleteMode) Modifier.dragContainer(dragDropState) else Modifier),
                 contentPadding = PaddingValues(vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
