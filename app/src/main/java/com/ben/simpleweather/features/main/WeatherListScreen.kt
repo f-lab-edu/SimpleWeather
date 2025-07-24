@@ -37,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,14 +44,14 @@ import androidx.navigation.NavController
 import com.ben.simpleweather.R
 
 // 날씨 상태에 따른 아이콘 매핑
-private fun weatherIcon(type: String): ImageVector = when (type) {
+/*private fun weatherIcon(type: String): ImageVector = when (type) {
     "Sunny" -> Icons.Filled.Done
     "Cloudy" -> Icons.Filled.Done
     "Rainy" -> Icons.Filled.Done
     "Snowy" -> Icons.Filled.Done
     "Windy" -> Icons.Filled.Done
     else -> Icons.Filled.Done
-}
+}*/
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -198,7 +197,7 @@ fun WeatherCard(
                 )
             }
             Icon(
-                imageVector = weatherIcon(weatherType),
+                imageVector = Icons.Filled.Done,
                 contentDescription = weatherType,
                 modifier = Modifier
                     .size(40.dp)
