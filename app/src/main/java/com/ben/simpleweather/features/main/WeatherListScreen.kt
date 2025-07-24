@@ -38,9 +38,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ben.simpleweather.R
 
 // 날씨 상태에 따른 아이콘 매핑
 private fun weatherIcon(type: String): ImageVector = when (type) {
@@ -85,13 +87,13 @@ fun WeatherListScreen(
         topBar = {
             if (isDeleteMode) {
                 TopAppBar(
-                    title = { Text("${selectedForDelete.size}개 선택됨") },
+                    title = { Text(stringResource(R.string.delete_mode_title, selectedForDelete.size)) },
                     navigationIcon = {
                         IconButton(onClick = {
                             isDeleteMode = false
                             selectedForDelete.clear()
                         }) {
-                            Icon(Icons.Default.Close, contentDescription = "취소")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cancel))
                         }
                     },
                     actions = {
@@ -103,19 +105,19 @@ fun WeatherListScreen(
                             },
                             enabled = selectedForDelete.isNotEmpty()
                         ) {
-                            Icon(Icons.Default.Delete, contentDescription = "삭제")
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
                         }
                     }
                 )
             } else {
                 TopAppBar(
-                    title = { Text("Weather") },
+                    title = { Text(stringResource(R.string.weather_title)) },
                     actions = {
                         IconButton(onClick = { isDeleteMode = true }) {
-                            Icon(Icons.Default.Delete, contentDescription = "삭제 모드 진입")
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_mode_enter))
                         }
                         IconButton(onClick = { navController.navigate("search") }) {
-                            Icon(Icons.Filled.Add, contentDescription = "Add City")
+                            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_city))
                         }
                     }
                 )
@@ -129,7 +131,7 @@ fun WeatherListScreen(
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
-                Text("등록된 도시가 없습니다.")
+                Text(stringResource(R.string.no_registered_cities))
             }
         } else {
             LazyColumn(
