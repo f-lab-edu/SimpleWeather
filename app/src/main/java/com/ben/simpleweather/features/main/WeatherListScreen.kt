@@ -43,6 +43,48 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ben.simpleweather.R
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WeatherListTopAppBar(
+    isDeleteMode: Boolean,
+    selectedCount: Int,
+    onCancelDeleteMode: () -> Unit,
+    onConfirmDelete: () -> Unit,
+    onEnterDeleteMode: () -> Unit,
+    onNavigateToSearch: () -> Unit
+) {
+    if (isDeleteMode) {
+        TopAppBar(
+            title = { Text(stringResource(R.string.delete_mode_title, selectedCount)) },
+            navigationIcon = {
+                IconButton(onClick = onCancelDeleteMode) {
+                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cancel))
+                }
+            },
+            actions = {
+                IconButton(
+                    onClick = onConfirmDelete,
+                    enabled = selectedCount > 0
+                ) {
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
+                }
+            }
+        )
+    } else {
+        TopAppBar(
+            title = { Text(stringResource(R.string.weather_title)) },
+            actions = {
+                IconButton(onClick = onEnterDeleteMode) {
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_mode_enter))
+                }
+                IconButton(onClick = onNavigateToSearch) {
+                    Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_city))
+                }
+            }
+        )
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -75,45 +117,30 @@ fun WeatherListScreen(
 
     Scaffold(
         topBar = {
-            if (isDeleteMode) {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.delete_mode_title, selectedForDelete.size)) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            isDeleteMode = false
-                            selectedForDelete.clear()
-                        }) {
-                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.cancel))
-                        }
-                    },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                viewModel.deleteSelected(selectedForDelete.toList())
-                                selectedForDelete.clear()
-                                isDeleteMode = false
-                            },
-                            enabled = selectedForDelete.isNotEmpty()
-                        ) {
-                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
-                        }
-                    }
-                )
-            } else {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.weather_title)) },
-                    actions = {
-                        IconButton(onClick = { isDeleteMode = true }) {
-                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete_mode_enter))
-                        }
-                        IconButton(onClick = { navController.navigate("search") }) {
-                            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_city))
-                        }
-                    }
-                )
-            }
+            WeatherListTopAppBar(
+                isDeleteMode = isDeleteMode,
+                selectedCount = selectedForDelete.size,
+                onCancelDeleteMode = {
+                    isDeleteMode = false
+                    selectedForDelete.clear()
+                },
+                onConfirmDelete = {
+                    viewModel.deleteSelected(selectedForDelete.toList())
+                    selectedForDelete.clear()
+                    isDeleteMode = false
+                },
+                onEnterDeleteMode = { isDeleteMode = true },
+                onNavigateToSearch = { navController.navigate("search") }
+            )
         }
     ) { innerPadding ->
+        val listModifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+            .let { base ->
+                if (!isDeleteMode) base.dragContainer(dragDropState) else base
+            }
+
         if (weatherList.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -126,11 +153,7 @@ fun WeatherListScreen(
         } else {
             LazyColumn(
                 state = listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    // 삭제 모드가 아닐 때만 dragContainer 적용
-                    .then(if (!isDeleteMode) Modifier.dragContainer(dragDropState) else Modifier),
+                modifier = listModifier,
                 contentPadding = PaddingValues(vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
