@@ -101,7 +101,6 @@ fun WeatherListScreen(
 
     val dragDropState = rememberDragDropState(
         lazyListState = listState,
-        draggableItemsNum = weatherList.size,
         onMove = { fromIndex, toIndex ->
             viewModel.moveItem(fromIndex, toIndex)
         }

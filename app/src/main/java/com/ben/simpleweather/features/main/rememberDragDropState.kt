@@ -10,8 +10,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun rememberDragDropState(
     lazyListState: LazyListState,
-    onMove: (Int, Int) -> Unit,
-    draggableItemsNum: Int
+    onMove: (Int, Int) -> Unit
 ): DragDropState {
     val state = remember(lazyListState) {
         DragDropState(
