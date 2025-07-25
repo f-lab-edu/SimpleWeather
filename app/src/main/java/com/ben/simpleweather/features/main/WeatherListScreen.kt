@@ -2,39 +2,17 @@ package com.ben.simpleweather.features.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -85,7 +63,6 @@ fun WeatherListTopAppBar(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun WeatherListScreen(
@@ -93,17 +70,13 @@ fun WeatherListScreen(
     viewModel: WeatherListViewModel = hiltViewModel()
 ) {
     val weatherList by viewModel.weatherList.collectAsState()
-
     var isDeleteMode by remember { mutableStateOf(false) }
     val selectedForDelete = remember { mutableStateListOf<String>() }
-
     val listState = rememberLazyListState()
 
     val dragDropState = rememberDragDropState(
         lazyListState = listState,
-        onMove = { fromIndex, toIndex ->
-            viewModel.moveItem(fromIndex, toIndex)
-        }
+        onMove = { fromIndex, toIndex -> viewModel.moveItem(fromIndex, toIndex) }
     )
 
     fun toggleSelection(cityName: String) {
@@ -136,47 +109,67 @@ fun WeatherListScreen(
         val listModifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .let { base ->
-                if (!isDeleteMode) base.dragContainer(dragDropState) else base
-            }
+            .let { if (!isDeleteMode) it.dragContainer(dragDropState) else it }
 
         if (weatherList.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(stringResource(R.string.no_registered_cities))
-            }
+            EmptyWeatherListState(modifier = listModifier)
         } else {
-            LazyColumn(
-                state = listState,
+            WeatherListContent(
+                weatherList = weatherList,
+                listState = listState,
                 modifier = listModifier,
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                draggableItems(
-                    items = weatherList,
-                    dragDropState = dragDropState
-                ) { modifier, item ->
-                    WeatherCard(
-                        modifier = modifier,
-                        cityName = item.cityName,
-                        temperature = item.temperature,
-                        weatherType = item.weatherType,
-                        isDeleteMode = isDeleteMode,
-                        isSelected = selectedForDelete.contains(item.cityName),
-                        onCardClick = {
-                            if (isDeleteMode) {
-                                toggleSelection(item.cityName)
-                            } else {
-                                navController.navigate("detail/${item.cityName}")
-                            }
-                        }
-                    )
+                dragDropState = dragDropState,
+                isDeleteMode = isDeleteMode,
+                selectedForDelete = selectedForDelete,
+                onCardClick = { cityName ->
+                    if (isDeleteMode) toggleSelection(cityName)
+                    else navController.navigate("detail/$cityName")
                 }
-            }
+            )
+        }
+    }
+}
+
+@Composable
+fun EmptyWeatherListState(modifier: Modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        Text(stringResource(R.string.no_registered_cities))
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun WeatherListContent(
+    weatherList: List<WeatherItem>,
+    listState: LazyListState,
+    modifier: Modifier,
+    dragDropState: DragDropState,
+    isDeleteMode: Boolean,
+    selectedForDelete: List<String>,
+    onCardClick: (String) -> Unit
+) {
+    LazyColumn(
+        state = listState,
+        modifier = modifier,
+        contentPadding = PaddingValues(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        draggableItems(
+            items = weatherList,
+            dragDropState = dragDropState
+        ) { modifier, item ->
+            WeatherCard(
+                modifier = modifier,
+                cityName = item.cityName,
+                temperature = item.temperature,
+                weatherType = item.weatherType,
+                isDeleteMode = isDeleteMode,
+                isSelected = selectedForDelete.contains(item.cityName),
+                onCardClick = { onCardClick(item.cityName) }
+            )
         }
     }
 }
