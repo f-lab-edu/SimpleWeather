@@ -5,5 +5,8 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun WeatherDetailScreen(cityName: String) {
-    Text("Weather Detail Screen")
+    Text("Weather Detail Screen"
+        + "\nCity: $cityName"
+        + "\nHere you can display detailed weather information for $cityName."
+    )
 }
