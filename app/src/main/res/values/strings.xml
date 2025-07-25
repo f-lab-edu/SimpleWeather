@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SimpleWeather</string>
+    <string name="weather_title">Weather</string>
+    <string name="delete_mode_title">%1$d selected</string>
+    <string name="no_registered_cities">No registered cities.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_mode_enter">Enter delete mode</string>
+    <string name="add_city">Add City</string>
 </resources>
