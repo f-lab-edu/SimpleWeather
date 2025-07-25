@@ -19,7 +19,7 @@ inline fun <T : Any> LazyListScope.draggableItems(
 ) {
     itemsIndexed(
         items = items,
-        contentType = { index, _ -> DraggableItem() }
+        contentType = { _, _ -> DraggableItem() }
     ) { index, item ->
         val modifier = if (dragDropState.draggingItemIndex == index) {
             Modifier
