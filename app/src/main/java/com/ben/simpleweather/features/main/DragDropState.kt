@@ -10,7 +10,6 @@ import kotlinx.coroutines.channels.Channel
 import androidx.compose.ui.geometry.Offset
 
 class DragDropState(
-    private val draggableItemsNum: Int,
     private val stateList: LazyListState,
     private val onMove: (Int, Int) -> Unit,
 ) {
