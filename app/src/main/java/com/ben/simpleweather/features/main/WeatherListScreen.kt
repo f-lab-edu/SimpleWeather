@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ben.simpleweather.R
+import com.ben.simpleweather.data.WeatherItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,17 +1,12 @@
 package com.ben.simpleweather.features.main
 
 import androidx.lifecycle.ViewModel
+import com.ben.simpleweather.data.WeatherItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
-
-data class WeatherItem(
-    val cityName: String,
-    val temperature: Int,
-    val weatherType: String
-)
 
 @HiltViewModel
 class WeatherListViewModel @Inject constructor() : ViewModel() {
