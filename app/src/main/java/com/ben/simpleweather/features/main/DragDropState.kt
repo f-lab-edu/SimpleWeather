@@ -65,7 +65,7 @@ class DragDropState(
                 else -> 0f
             }
 
-            if (scroll != 0f && currentDraggingItemIndex != 0 && currentDraggingItemIndex != draggableItemsNum - 1) {
+            if (scroll != 0f) {
                 scrollChannel.trySend(scroll)
             }
         }
