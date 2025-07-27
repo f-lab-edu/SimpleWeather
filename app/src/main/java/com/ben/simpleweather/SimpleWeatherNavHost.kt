@@ -12,10 +12,14 @@ import com.ben.simpleweather.features.search.CitySearchScreen
 fun SimpleWeatherNavHost() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "main") {
-        composable("main") { WeatherListScreen() }
+        composable("main") { WeatherListScreen(navController = navController) }
         composable("detail/{cityName}") { backStackEntry ->
             val cityName = backStackEntry.arguments?.getString("cityName")
-            WeatherDetailScreen()
+            if(cityName != null) {
+                WeatherDetailScreen(cityName = cityName)
+            } else {
+                // Handle the case where cityName is null, maybe show an error or a default screen
+            }
         }
         composable("search") { CitySearchScreen() }
     }
