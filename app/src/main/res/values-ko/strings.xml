@@ -8,4 +8,17 @@
     <string name="cancel">취소</string>
     <string name="delete_mode_enter">삭제 모드 진입</string>
     <string name="add_city">도시 추가</string>
+    <string name="back">뒤로가기</string>
+    <string name="hourly_forecast">시간대별 예보</string>
+    <string name="details">상세 정보</string>
+    <string name="chance_of_rain">강수 확률</string>
+    <string name="humidity">습도</string>
+    <string name="wind">풍속</string>
+    <string name="visibility">가시거리</string>
+    <string name="cloudiness">구름량</string>
+    <string name="wind_direction">풍향</string>
+    <string name="sunrise">일출</string>
+    <string name="sunset">일몰</string>
+    <string name="rain_amount">강수량 (3시간)</string>
+    <string name="snow_amount">적설량 (3시간)</string>
 </resources>

@@ -7,4 +7,17 @@
     <string name="cancel">Cancel</string>
     <string name="delete_mode_enter">Enter delete mode</string>
     <string name="add_city">Add City</string>
+    <string name="back">Back</string>
+    <string name="hourly_forecast">Hourly Forecast</string>
+    <string name="details">Details</string>
+    <string name="chance_of_rain">Chance of Rain</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="visibility">Visibility</string>
+    <string name="cloudiness">Cloudiness</string>
+    <string name="wind_direction">Wind Direction</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="rain_amount">Rain (3h)</string>
+    <string name="snow_amount">Snow (3h)</string>
 </resources>
