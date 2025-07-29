@@ -20,7 +20,7 @@ class WeatherDetailViewModel @Inject constructor() : ViewModel() {
     private val _forecast = MutableStateFlow<List<ForecastItem>>(emptyList())
     val forecast: StateFlow<List<ForecastItem>> = _forecast.asStateFlow()
 
-    fun loadWeather(cityName: String) {
+    fun loadWeather() {
         viewModelScope.launch {
             _weather.value = WeatherDetail(
                 temperature = 27,

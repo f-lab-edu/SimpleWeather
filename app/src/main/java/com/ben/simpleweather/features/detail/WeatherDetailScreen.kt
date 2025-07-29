@@ -56,7 +56,7 @@ fun WeatherDetailScreen(
     val forecast by viewModel.forecast.collectAsState()
 
     LaunchedEffect(cityName) {
-        viewModel.loadWeather(cityName)
+        viewModel.loadWeather()
     }
 
     Scaffold(
