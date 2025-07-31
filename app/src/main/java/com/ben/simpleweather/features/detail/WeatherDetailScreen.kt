@@ -58,8 +58,7 @@ fun WeatherDetailScreen(
     navController: NavController,
     viewModel: WeatherDetailViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
-    val weather by viewModel.weather.collectAsState()
-    val forecast by viewModel.forecast.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(cityName) {
         viewModel.loadWeather()
@@ -80,20 +79,32 @@ fun WeatherDetailScreen(
             )
         }
     ) { innerPadding ->
-        weather?.let { nonNullWeather ->
-            WeatherDetailContent(
-                modifier = Modifier.padding(innerPadding),
-                weather = nonNullWeather,
-                forecast = forecast
-            )
-        } ?: run {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            when (val state = uiState) {
+                is WeatherUiState.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+
+                is WeatherUiState.Success -> {
+                    WeatherDetailContent(
+                        modifier = Modifier.fillMaxSize(),
+                        weather = state.weather,
+                        forecast = state.forecast
+                    )
+                }
+
+                is WeatherUiState.Error -> {
+                    Text(
+                        text = state.message,
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
     }
