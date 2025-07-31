@@ -48,7 +48,7 @@ class WeatherDetailViewModel @Inject constructor() : ViewModel() {
                 )
 
                 _uiState.value = WeatherUiState.Success(weather, forecast)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _uiState.value = WeatherUiState.Error("날씨 데이터를 불러오는 데 실패했습니다.")
             }
         }
