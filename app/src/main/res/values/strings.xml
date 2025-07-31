@@ -20,4 +20,5 @@
     <string name="sunset">Sunset</string>
     <string name="rain_amount">Rain (3h)</string>
     <string name="snow_amount">Snow (3h)</string>
+    <string name="feels_like">Feels like %1$s°C</string>
 </resources>

@@ -126,7 +126,7 @@ fun WeatherDetailContent(
                 )
                 Text(text = weather.description, style = MaterialTheme.typography.bodyMedium)
                 Text(
-                    text = "Feels like ${weather.feelsLike}°C",
+                    text = stringResource(id = R.string.feels_like, weather.feelsLike),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
