@@ -45,6 +45,12 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+const val WEATHER_ICON_BASE_URL: String = "https://openweathermap.org/img/wn/"
+val directions = listOf(
+    "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+    "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailScreen(
@@ -74,13 +80,13 @@ fun WeatherDetailScreen(
             )
         }
     ) { innerPadding ->
-        if (weather != null) {
+        weather?.let { nonNullWeather ->
             WeatherDetailContent(
                 modifier = Modifier.padding(innerPadding),
-                weather = weather!!,
+                weather = nonNullWeather,
                 forecast = forecast
             )
-        } else {
+        } ?: run {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -272,7 +278,7 @@ fun DetailRow(
 
 @Composable
 fun WeatherIcon(iconCode: String, size: Dp = 60.dp, modifier: Modifier = Modifier) {
-    val iconUrl = "https://openweathermap.org/img/wn/${iconCode}@2x.png"
+    val iconUrl = "${WEATHER_ICON_BASE_URL}${iconCode}@2x.png"
     AsyncImage(
         model = iconUrl,
         contentDescription = null,
@@ -281,10 +287,6 @@ fun WeatherIcon(iconCode: String, size: Dp = 60.dp, modifier: Modifier = Modifie
 }
 
 fun degToCompass(deg: Int): String {
-    val directions = listOf(
-        "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-        "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"
-    )
     val index = ((deg / 22.5) + 0.5).toInt() % 16
     return directions[index]
 }
