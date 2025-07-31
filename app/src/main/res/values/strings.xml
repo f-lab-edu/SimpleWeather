@@ -21,4 +21,7 @@
     <string name="rain_amount">Rain (3h)</string>
     <string name="snow_amount">Snow (3h)</string>
     <string name="feels_like">Feels like %1$s°C</string>
+    <string name="add_location">Add Location</string>
+    <string name="search_city_placeholder">Enter city name</string>
+    <string name="no_search_results">No search results found</string>
 </resources>
