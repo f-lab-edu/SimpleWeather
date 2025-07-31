@@ -15,5 +15,5 @@ data class WeatherDetail(
     val sunrise: Long,              // Unix time
     val sunset: Long,               // Unix time
     val rainAmount: Double?,        // mm
-    val snowAmount: Double?         // mm
+    val snowAmount: Double?,         // mm
 )
