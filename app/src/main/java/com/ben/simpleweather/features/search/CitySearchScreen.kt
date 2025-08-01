@@ -45,6 +45,10 @@ import com.ben.simpleweather.R
 import com.ben.simpleweather.data.City
 import java.util.Locale
 
+object Locales {
+    const val KOREAN = "ko"
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CitySearchScreen(
@@ -53,7 +57,7 @@ fun CitySearchScreen(
     viewModel: CitySearchViewModel = hiltViewModel()
 ) {
     val cityList by viewModel.cityList.collectAsState()
-    val isKorean = remember { Locale.getDefault().language == "ko" }
+    val isKorean = remember { Locale.getDefault().language == Locales.KOREAN }
     var query by remember { mutableStateOf("") }
 
     Scaffold(
