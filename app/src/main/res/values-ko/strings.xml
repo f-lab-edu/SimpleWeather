@@ -22,4 +22,7 @@
     <string name="rain_amount">강수량 (3시간)</string>
     <string name="snow_amount">적설량 (3시간)</string>
     <string name="feels_like">체감온도 %1$s°C</string>
+    <string name="add_location">위치 추가</string>
+    <string name="search_city_placeholder">도시명을 입력하세요</string>
+    <string name="no_search_results">검색 결과가 없습니다</string>
 </resources>

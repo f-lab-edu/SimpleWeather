@@ -24,6 +24,14 @@ fun SimpleWeatherNavHost() {
                 // 예외 처리 화면
             }
         }
-        composable("search") { CitySearchScreen() }
+        composable("search") {
+            CitySearchScreen(
+                onBackClick = { navController.popBackStack() },
+                onAddCity = { city ->
+                    // 도시 추가 로직 작업 예정 (예: ViewModel에 저장 후 popBackStack)
+                    navController.popBackStack()  // 임시로 뒤로가기 처리만
+                }
+            )
+        }
     }
 }
