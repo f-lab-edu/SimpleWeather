@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,6 +24,16 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        val apiKey = properties.getProperty("WEATHER_API_KEY") // API 키 가져오기
+
+        if (apiKey.isNullOrEmpty()) {
+            // API 키가 null이거나 비어있으면 빌드 오류 발생
+            throw GradleException("local.properties 파일에 WEATHER_API_KEY가 없거나 비어있습니다. 추가해주세요.")
+        }
+        buildConfigField("String", "WEATHER_API_KEY", "\"${properties.getProperty("WEATHER_API_KEY")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
