@@ -24,4 +24,7 @@
     <string name="add_location">Add Location</string>
     <string name="search_city_placeholder">Enter city name</string>
     <string name="no_search_results">No search results found</string>
+    <string name="city_add_duplicate">City is already added.</string>
+    <string name="city_add_limit">You can add up to 10 cities only.</string>
+    <string name="city_add_success">City has been successfully added.</string>
 </resources>

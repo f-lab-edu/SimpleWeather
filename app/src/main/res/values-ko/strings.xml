@@ -25,4 +25,7 @@
     <string name="add_location">위치 추가</string>
     <string name="search_city_placeholder">도시명을 입력하세요</string>
     <string name="no_search_results">검색 결과가 없습니다</string>
+    <string name="city_add_duplicate">이미 등록된 도시입니다.</string>
+    <string name="city_add_limit">도시는 최대 10개까지 저장할 수 있습니다.</string>
+    <string name="city_add_success">도시가 성공적으로 추가되었습니다.</string>
 </resources>
