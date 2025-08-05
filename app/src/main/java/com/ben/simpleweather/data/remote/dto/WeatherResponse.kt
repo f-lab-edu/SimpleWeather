@@ -52,7 +52,8 @@ data class MainDto(
     @SerialName("grnd_level")
     val grndLevel: Int? = null,
     // Forecast specific field, adding here for reusability if MainDto is used for forecast items
-    val temp_kf: Double? = null,
+    @SerialName("temp_kf")
+    val tempKf: Double? = null,
 )
 
 @Serializable
