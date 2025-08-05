@@ -1,6 +1,6 @@
 package com.ben.simpleweather.network
 
-import com.ben.simpleweather.BuildConfig // API 키를 위해 BuildConfig 임포트
+import com.ben.simpleweather.BuildConfig
 import com.ben.simpleweather.data.remote.dto.ForecastResponse
 import com.ben.simpleweather.data.remote.dto.WeatherResponse
 import kotlinx.coroutines.runBlocking
@@ -15,7 +15,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory // 유지된 import
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 class WeatherApiTest {
 
@@ -69,8 +69,6 @@ class WeatherApiTest {
             longitude = seoulLongitude
             // units와 lang은 WeatherApi 인터페이스에 정의된 기본값 사용
         )
-        println("Current Weather Response: $response") // 응답 내용 출력 추가
-
         // 응답 검증
         assertNotNull("Response body should not be null", response)
         assertEquals("Response code (cod) should be 200", 200, response.cod)
