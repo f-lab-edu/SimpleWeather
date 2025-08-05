@@ -25,7 +25,7 @@ class WeatherApiTest {
 
     @Before
     fun setUp() {
-        if (BuildConfig.WEATHER_API_KEY.isEmpty()) {
+        check(!(BuildConfig.WEATHER_API_KEY.isEmpty())){
             throw IllegalStateException("WEATHER_API_KEY in BuildConfig is empty. Ensure it's set in local.properties and Gradle sync is complete.")
         }
 
@@ -62,7 +62,7 @@ class WeatherApiTest {
     }
 
     @Test
-    fun `getCurrentWeather for Seoul should return current weather data`() = runBlocking {
+    fun getCurrentWeatherForSeoulShouldReturnCurrentWeatherData() = runBlocking {
         // API 호출
         val response: WeatherResponse = weatherApi.getCurrentWeather(
             latitude = seoulLatitude,
@@ -80,7 +80,7 @@ class WeatherApiTest {
     }
 
     @Test
-    fun `getWeatherForecast for Seoul should return forecast data`() = runBlocking {
+    fun getWeatherForecastForSeoulShouldReturnForecastData() = runBlocking {
         // API 호출
         val response: ForecastResponse = weatherApi.getWeatherForecast(
             latitude = seoulLatitude,
