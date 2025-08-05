@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.2"
+coreTesting = "2.2.0"
 datastorePreferences = "1.1.7"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
@@ -7,10 +8,12 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.1"
+kotlinxCoroutinesTest = "1.10.2"
 material = "1.12.0"
 compose-bom = "2024.09.00"
 activity-compose = "1.10.1"
 hiltNavigationCompose = "1.2.0"
+mockk = "1.14.5"
 navigation-compose = "2.9.2"
 hilt = "2.57"
 retrofit = "3.0.0"
@@ -20,11 +23,13 @@ ksp = "2.0.21-1.0.26"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # Jetpack Compose
@@ -44,6 +49,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
 # Retrofit & Kotlinx Serialization
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
