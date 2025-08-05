@@ -87,8 +87,6 @@ class WeatherApiTest {
             longitude = seoulLongitude
             // units, lang, cnt는 WeatherApi 인터페이스에 정의된 기본값 또는 null 사용
         )
-        println("Weather Forecast Response: $response") // 응답 내용 출력 추가
-
         // 응답 검증
         assertNotNull("Response body should not be null", response)
         assertEquals("Response code (cod) should be \"200\"", "200", response.cod) // Forecast API의 cod는 String 타입
