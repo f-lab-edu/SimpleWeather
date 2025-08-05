@@ -19,13 +19,13 @@ data class WeatherResponse(
     val timezone: Int? = null,
     val id: Int? = null,
     val name: String? = null,
-    val cod: Int? = null
+    val cod: Int? = null,
 )
 
 @Serializable
 data class CoordDto(
     val lon: Double? = null,
-    val lat: Double? = null
+    val lat: Double? = null,
 )
 
 @Serializable
@@ -33,7 +33,7 @@ data class WeatherDto(
     val id: Int? = null,
     val main: String? = null,
     val description: String? = null,
-    val icon: String? = null
+    val icon: String? = null,
 )
 
 @Serializable
@@ -52,19 +52,19 @@ data class MainDto(
     @SerialName("grnd_level")
     val grndLevel: Int? = null,
     // Forecast specific field, adding here for reusability if MainDto is used for forecast items
-    val temp_kf: Double? = null
+    val temp_kf: Double? = null,
 )
 
 @Serializable
 data class WindDto(
     val speed: Double? = null,
     val deg: Int? = null,
-    val gust: Double? = null
+    val gust: Double? = null,
 )
 
 @Serializable
 data class CloudsDto(
-    val all: Int? = null
+    val all: Int? = null,
 )
 
 @Serializable
@@ -72,7 +72,7 @@ data class RainDto(
     @SerialName("1h")
     val oneHour: Double? = null,
     @SerialName("3h")
-    val threeHours: Double? = null
+    val threeHours: Double? = null,
 )
 
 @Serializable
@@ -80,7 +80,7 @@ data class SnowDto(
     @SerialName("1h")
     val oneHour: Double? = null,
     @SerialName("3h")
-    val threeHours: Double? = null
+    val threeHours: Double? = null,
 )
 
 @Serializable
@@ -89,6 +89,6 @@ data class SysDto( // For Current Weather
     val id: Int? = null,
     val country: String? = null,
     val sunrise: Long? = null,
-    val sunset: Long? = null
+    val sunset: Long? = null,
 )
 

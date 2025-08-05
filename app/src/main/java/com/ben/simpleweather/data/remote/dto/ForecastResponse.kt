@@ -9,7 +9,7 @@ data class ForecastResponse(
     val message: Int? = null,
     val cnt: Int? = null,
     val list: List<ForecastItemDto>? = null,
-    val city: CityDto? = null
+    val city: CityDto? = null,
 )
 
 @Serializable
@@ -25,7 +25,7 @@ data class ForecastItemDto(
     val snow: SnowDto? = null, // Reusing SnowDto
     val sys: ForecastSysDto? = null, // Different SysDto for forecast
     @SerialName("dt_txt")
-    val dtTxt: String? = null
+    val dtTxt: String? = null,
 )
 
 @Serializable
@@ -42,6 +42,6 @@ data class CityDto(
     val population: Int? = null,
     val timezone: Int? = null,
     val sunrise: Long? = null,
-    val sunset: Long? = null
+    val sunset: Long? = null,
 )
 
