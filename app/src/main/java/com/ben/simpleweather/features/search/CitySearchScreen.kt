@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,16 +25,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,7 +44,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ben.simpleweather.R
-import com.ben.simpleweather.data.City
 import java.util.Locale
 
 object Locales {
@@ -53,14 +54,26 @@ object Locales {
 @Composable
 fun CitySearchScreen(
     onBackClick: () -> Unit,
-    onAddCity: (City) -> Unit,
     viewModel: CitySearchViewModel = hiltViewModel()
 ) {
-    val cityList by viewModel.cityList.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val searchResult by viewModel.searchResult.collectAsState()
+    val message by viewModel.message.collectAsState()
+
     val isKorean = remember { Locale.getDefault().language == Locales.KOREAN }
-    var query by remember { mutableStateOf("") }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(message) {
+        message?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearMessage()
+        }
+    }
 
     Scaffold(
+        modifier = Modifier.imePadding(),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
@@ -91,8 +104,8 @@ fun CitySearchScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             TextField(
-                value = query,
-                onValueChange = { query = it },
+                value = searchQuery,
+                onValueChange = { viewModel.onQueryChanged(it) },
                 textStyle = MaterialTheme.typography.bodyLarge,
                 leadingIcon = {
                     Icon(
@@ -131,7 +144,7 @@ fun CitySearchScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                if (cityList.isEmpty()) {
+                if (searchResult.isEmpty()) {
                     item {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -141,11 +154,15 @@ fun CitySearchScreen(
                         }
                     }
                 } else {
-                    items(cityList) { city ->
+                    items(
+                        items = searchResult,
+                        key = { it.id }
+                    ) { city ->
                         CitySearchResultCard(
                             name = if (isKorean) city.nameKo else city.name,
                             country = city.country,
-                            onClick = { onAddCity(city) }
+                            onClick = { viewModel.addCity(city) },
+                            modifier = Modifier.animateItem()
                         )
                     }
                 }
@@ -154,14 +171,16 @@ fun CitySearchScreen(
     }
 }
 
+
 @Composable
 fun CitySearchResultCard(
     name: String,
     country: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
             .padding(horizontal = 4.dp),
