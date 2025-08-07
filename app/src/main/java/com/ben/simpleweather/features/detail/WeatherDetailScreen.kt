@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.ben.simpleweather.R
 import com.ben.simpleweather.data.ForecastItem
 import com.ben.simpleweather.data.WeatherDetail
+import com.ben.simpleweather.features.WeatherIcon
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -284,17 +285,6 @@ fun DetailRow(
             )
         }
     }
-}
-
-
-@Composable
-fun WeatherIcon(iconCode: String, size: Dp = 60.dp, modifier: Modifier = Modifier) {
-    val iconUrl = "${WEATHER_ICON_BASE_URL}${iconCode}@2x.png"
-    AsyncImage(
-        model = iconUrl,
-        contentDescription = null,
-        modifier = modifier.size(size)
-    )
 }
 
 fun degToCompass(deg: Int): String {
