@@ -1,5 +1,6 @@
 package com.ben.simpleweather.features.detail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ben.simpleweather.data.ForecastItem
@@ -44,7 +45,9 @@ class WeatherDetailViewModel @Inject constructor(
                 val weather = weatherRepository.getWeather(city.id, city.coord.lat, city.coord.lon)
                 val forecast = weatherRepository.getForecast(city.coord.lat, city.coord.lon)
 
-                val weatherDetail = weather.toWeatherDetail()
+                val precipitationChance = (forecast.list?.firstOrNull()?.pop?.toFloat() ?: 0f) * 100f
+
+                val weatherDetail = weather.toWeatherDetail(precipitationChance)
                 val forecastList = forecast.toForecastList()
 
                 _uiState.value = WeatherUiState.Success(weatherDetail, forecastList)
@@ -71,7 +74,7 @@ class WeatherDetailViewModel @Inject constructor(
         }.orEmpty()
     }
 
-    fun WeatherResponse.toWeatherDetail(): WeatherDetail {
+    fun WeatherResponse.toWeatherDetail(precipitationChance: Float): WeatherDetail {
         return WeatherDetail(
             temperature = main?.temp?.toInt() ?: 0,
             feelsLike = main?.feelsLike?.toInt() ?: 0,
@@ -79,7 +82,7 @@ class WeatherDetailViewModel @Inject constructor(
             iconCode = weather?.firstOrNull()?.icon.orEmpty(),
             humidity = main?.humidity ?: 0,
             windSpeed = wind?.speed?.toInt() ?: 0,
-            precipitationChance = 0f,
+            precipitationChance = precipitationChance,
             visibility = visibility ?: 0,
             cloudiness = clouds?.all ?: 0,
             windDegree = wind?.deg ?: 0,
