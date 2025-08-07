@@ -61,14 +61,14 @@ fun WeatherDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(cityName) {
+    LaunchedEffect(cityid) {
         viewModel.loadWeather()
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(cityName) },
+                title = { },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
