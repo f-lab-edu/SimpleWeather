@@ -1,5 +1,6 @@
 package com.ben.simpleweather.data.repository
 
+import com.ben.simpleweather.data.remote.dto.ForecastResponse
 import com.ben.simpleweather.data.remote.dto.WeatherResponse
 
 interface WeatherRepository {
@@ -8,4 +9,9 @@ interface WeatherRepository {
         latitude: Double,
         longitude: Double,
     ): WeatherResponse
+
+    suspend fun getForecast(
+        lat: Double,
+        lon: Double,
+    ): ForecastResponse
 }

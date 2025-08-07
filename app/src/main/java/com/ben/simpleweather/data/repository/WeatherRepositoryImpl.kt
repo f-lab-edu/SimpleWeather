@@ -1,6 +1,7 @@
 package com.ben.simpleweather.data.repository
 
 import com.ben.simpleweather.data.CachedWeather
+import com.ben.simpleweather.data.remote.dto.ForecastResponse
 import com.ben.simpleweather.data.remote.dto.WeatherResponse
 import com.ben.simpleweather.network.WeatherApi
 import jakarta.inject.Inject
@@ -14,7 +15,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private val cacheDurationMillis = 30 * 60 * 1000L // 30분
 
     override suspend fun getWeather(cityId: Int, latitude: Double, longitude: Double): WeatherResponse {
-        val lang = if (Locale.getDefault().language == "ko") "kr" else "en"
+        val lang = getLang()
 
         val now = System.currentTimeMillis()
         val cached = weatherCache[cityId]
@@ -27,4 +28,11 @@ class WeatherRepositoryImpl @Inject constructor(
             weather
         }
     }
+
+    override suspend fun getForecast(lat: Double, lon: Double): ForecastResponse {
+        val lang = getLang()
+        return api.getWeatherForecast(lat, lon, lang = lang)
+    }
+
+    private fun getLang(): String = if (Locale.getDefault().language == "ko") "kr" else "en"
 }
