@@ -6,4 +6,5 @@ interface CityStorageRepository {
     suspend fun getSavedCities(): List<City>
     suspend fun addCity(city: City)
     suspend fun removeCities(cities: List<City>)
+    suspend fun getCityById(id: Int): City?
 }

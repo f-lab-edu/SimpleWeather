@@ -46,4 +46,8 @@ class CityStorageRepositoryImpl @Inject constructor(
             prefs[key] = updatedJson
         }
     }
+
+    override suspend fun getCityById(id: Int): City? {
+        return getSavedCities().find { it.id == id }
+    }
 }
