@@ -60,15 +60,21 @@ fun WeatherDetailScreen(
     viewModel: WeatherDetailViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val cityName by viewModel.cityName.collectAsState()
 
     LaunchedEffect(cityid) {
-        viewModel.loadWeather()
+        viewModel.loadWeather(cityid)
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { },
+                title = {
+                    Text(
+                        text = cityName ?: "",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
