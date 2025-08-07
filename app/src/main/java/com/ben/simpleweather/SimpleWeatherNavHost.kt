@@ -13,11 +13,11 @@ fun SimpleWeatherNavHost() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "main") {
         composable("main") { WeatherListScreen(navController = navController) }
-        composable("detail/{cityName}") { backStackEntry ->
-            val cityName = backStackEntry.arguments?.getString("cityName")
-            if (cityName != null) {
+        composable("detail/{cityid}") { backStackEntry ->
+            val cityid = backStackEntry.arguments?.getInt("cityid")
+            if (cityid != null) {
                 WeatherDetailScreen(
-                    cityName = cityName,
+                    cityid = cityid,
                     navController = navController
                 )
             } else {

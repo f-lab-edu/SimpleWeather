@@ -55,7 +55,7 @@ val directions = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailScreen(
-    cityName: String,
+    cityid: Int,
     navController: NavController,
     viewModel: WeatherDetailViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
