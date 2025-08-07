@@ -23,7 +23,7 @@ class CityStorageRepositoryImpl @Inject constructor(
         val json = prefs[key] ?: return emptyList()
         return try {
             Json.decodeFromString(json)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             emptyList()
         }
     }
@@ -31,9 +31,23 @@ class CityStorageRepositoryImpl @Inject constructor(
     override suspend fun addCity(city: City) {
         val current = getSavedCities().toMutableList()
         current.add(city)
-        val updatedJson = Json.encodeToString(current)
+        saveCities(current)
+    }
+
+    override suspend fun removeCities(cities: List<City>) {
+        val current = getSavedCities()
+        val updated = current.filterNot { city -> cities.any { it.id == city.id } }
+        saveCities(updated)
+    }
+
+    private suspend fun saveCities(cities: List<City>) {
+        val updatedJson = Json.encodeToString(cities)
         context.dataStore.edit { prefs ->
             prefs[key] = updatedJson
         }
+    }
+
+    override suspend fun getCityById(id: Int): City? {
+        return getSavedCities().find { it.id == id }
     }
 }

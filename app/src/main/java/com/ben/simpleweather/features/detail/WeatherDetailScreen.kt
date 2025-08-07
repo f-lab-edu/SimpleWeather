@@ -34,13 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.ben.simpleweather.R
 import com.ben.simpleweather.data.ForecastItem
 import com.ben.simpleweather.data.WeatherDetail
+import com.ben.simpleweather.features.WeatherIcon
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -54,20 +53,26 @@ val directions = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailScreen(
-    cityName: String,
+    cityid: Int,
     navController: NavController,
     viewModel: WeatherDetailViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val cityName by viewModel.cityName.collectAsState()
 
-    LaunchedEffect(cityName) {
-        viewModel.loadWeather()
+    LaunchedEffect(cityid) {
+        viewModel.loadWeather(cityid)
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(cityName) },
+                title = {
+                    Text(
+                        text = cityName ?: "",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -284,17 +289,6 @@ fun DetailRow(
             )
         }
     }
-}
-
-
-@Composable
-fun WeatherIcon(iconCode: String, size: Dp = 60.dp, modifier: Modifier = Modifier) {
-    val iconUrl = "${WEATHER_ICON_BASE_URL}${iconCode}@2x.png"
-    AsyncImage(
-        model = iconUrl,
-        contentDescription = null,
-        modifier = modifier.size(size)
-    )
 }
 
 fun degToCompass(deg: Int): String {
