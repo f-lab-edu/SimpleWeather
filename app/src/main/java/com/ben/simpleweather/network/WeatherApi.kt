@@ -12,7 +12,7 @@ interface WeatherApi {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = "metric",
-        @Query("lang") lang: String = "kr"
+        @Query("lang") lang: String = "en"
     ): WeatherResponse
 
     @GET("data/2.5/forecast")
@@ -20,7 +20,7 @@ interface WeatherApi {
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
         @Query("units") units: String = "metric",
-        @Query("lang") lang: String = "kr",
+        @Query("lang") lang: String = "en",
         @Query("cnt") count: Int? = null
     ): ForecastResponse
 }
